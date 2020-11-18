@@ -171,3 +171,8 @@ QuicCongestionControlOnDataLost(
     _In_ uint32_t NumRetransmittableBytes,
     _In_ BOOLEAN PersistentCongestion
     );
+
+void
+QuicCongestionControlExitSlowStart(
+    _In_ QUIC_CONGESTION_CONTROL* Cc
+    );

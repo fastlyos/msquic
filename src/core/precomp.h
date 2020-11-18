@@ -71,6 +71,7 @@ extern "C" {
 #include "connection.h"
 #include "packet_builder.h"
 #include "listener.h"
+#include <math.h>
 
 #if defined(__cplusplus)
 }

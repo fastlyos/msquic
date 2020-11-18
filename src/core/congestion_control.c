@@ -557,3 +557,12 @@ QuicCongestionControlOnDataLost(
     QuicCongestionControlUpdateBlockedState(Cc, PreviousCanSendState);
     QuicConnLogCubic(QuicCongestionControlGetConnection(Cc));
 }
+
+void
+QuicCongestionControlExitSlowStart(
+    _In_ QUIC_CONGESTION_CONTROL* Cc
+    )
+{
+    // Cc->CongestionWindow = Cc->SlowStartThreshold;
+    Cc->SlowStartThreshold = Cc->CongestionWindow;
+}
