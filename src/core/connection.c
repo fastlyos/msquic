@@ -776,7 +776,7 @@ QuicConnUpdateRtt(
         Path->SmoothedRtt = (7 * Path->SmoothedRtt + LatestRtt) / 8;
         RttUpdated = PrevRtt != Path->SmoothedRtt;
         // if (LatestRtt >= (uint32_t)sqrt(Path->RttVariance) * 2) {
-        if (Path->SmoothedRtt >= (3 * Path->MinRtt) / 2) {
+        if (Path->SmoothedRtt >= 2 * Path->MinRtt) {
             QuicCongestionControlExitSlowStart(&Connection->CongestionControl);
         }
     }

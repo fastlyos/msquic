@@ -563,7 +563,15 @@ QuicCongestionControlExitSlowStart(
     _In_ QUIC_CONGESTION_CONTROL* Cc
     )
 {
-    // Cc->CongestionWindow = Cc->SlowStartThreshold;
-    Cc->SlowStartThreshold = Cc->CongestionWindow;
-    QuicConnLogCubic(QuicCongestionControlGetConnection(Cc));
+    if (Cc->SlowStartThreshold > Cc->CongestionWindow) {
+        QUIC_CONNECTION* Connection = QuicCongestionControlGetConnection(Cc);
+        Cc->SlowStartThreshold = Cc->CongestionWindow;
+        Cc->KCubic =
+            CubeRoot(
+                (Cc->WindowMax / Connection->Paths[0].Mtu * (10 - TEN_TIMES_BETA_CUBIC) << 9) /
+                TEN_TIMES_C_CUBIC);
+        Cc->KCubic = S_TO_MS(Cc->KCubic);
+        Cc->KCubic >>= 3;
+        QuicConnLogCubic(Connection);
+    }
 }
