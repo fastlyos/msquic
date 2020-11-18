@@ -233,6 +233,7 @@ namespace MsQuicTracing.DataModel
             var posted = new QuicRawTputSample(QuicTputDataType.Bufferred);
             var connFC = new QuicRawTputSample(QuicTputDataType.ConnFC);
             var streamFC = new QuicRawTputSample(QuicTputDataType.StreamFC);
+            var ssThresh = new QuicRawTputSample(QuicTputDataType.SSThresh);
 
             var tputEvents = new List<QuicRawTputData>();
             foreach (var evt in Events)
@@ -252,6 +253,14 @@ namespace MsQuicTracing.DataModel
                 {
                     var _evt = evt as QuicConnectionInFlowStatsEvent;
                     rx.Update(_evt!.BytesRecv, evt.TimeStamp, ref tputEvents);
+                }
+                else if (evt.EventId == QuicEventId.ConnCubic)
+                {
+                    var _evt = evt as QuicConnectionConnCubicEvent;
+                    if (_evt!.SlowStartThreshold != uint.MaxValue)
+                    {
+                        ssThresh.Update(_evt!.SlowStartThreshold, evt.TimeStamp, ref tputEvents);
+                    }
                 }
                 else if (evt.EventId == QuicEventId.ConnOutFlowStreamStats)
                 {
@@ -277,6 +286,7 @@ namespace MsQuicTracing.DataModel
             posted.Finalize(FinalTimeStamp, ref tputEvents);
             connFC.Finalize(FinalTimeStamp, ref tputEvents);
             streamFC.Finalize(FinalTimeStamp, ref tputEvents);
+            ssThresh.Finalize(FinalTimeStamp, ref tputEvents);
 
             return tputEvents;
         }
@@ -399,6 +409,12 @@ namespace MsQuicTracing.DataModel
                     {
                         var _evt = evt as QuicConnectionInFlowStatsEvent;
                         BytesReceived = _evt!.BytesRecv;
+                        TrySetWorker(evt, state);
+                        break;
+                    }
+                case QuicEventId.ConnCubic:
+                    {
+                        state.DataAvailableFlags |= QuicDataAvailableFlags.ConnectionTput;
                         TrySetWorker(evt, state);
                         break;
                     }

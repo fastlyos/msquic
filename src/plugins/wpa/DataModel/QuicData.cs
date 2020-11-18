@@ -161,7 +161,8 @@ namespace MsQuicTracing.DataModel
         CWnd,
         Bufferred,
         ConnFC,
-        StreamFC
+        StreamFC,
+        SSThresh
     }
 
     public struct QuicRawTputData

@@ -193,6 +193,8 @@ namespace MsQuicTracing.DataModel.ETW
                     return new QuicConnectionOutFlowBlockedEvent(timestamp, processor, processId, threadId, pointerSize, data.ReadPointer(), data.ReadByte());
                 case QuicEventId.ConnInFlowStats:
                     return new QuicConnectionInFlowStatsEvent(timestamp, processor, processId, threadId, pointerSize, data.ReadPointer(), data.ReadULong());
+                case QuicEventId.ConnCubic:
+                    return new QuicConnectionConnCubicEvent(timestamp, processor, processId, threadId, pointerSize, data.ReadPointer(), data.ReadUInt(), data.ReadUInt(), data.ReadUInt(), data.ReadUInt());
                 case QuicEventId.ConnCongestion:
                     return new QuicConnectionCongestionEvent(timestamp, processor, processId, threadId, pointerSize, data.ReadPointer());
                 case QuicEventId.ConnStats:

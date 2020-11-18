@@ -565,4 +565,5 @@ QuicCongestionControlExitSlowStart(
 {
     // Cc->CongestionWindow = Cc->SlowStartThreshold;
     Cc->SlowStartThreshold = Cc->CongestionWindow;
+    QuicConnLogCubic(QuicCongestionControlGetConnection(Cc));
 }

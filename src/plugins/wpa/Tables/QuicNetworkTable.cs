@@ -170,7 +170,7 @@ namespace MsQuicTracing.Tables
 
             tableConfig2.AddColumnRole(ColumnRole.StartTime, timeColumnConfig);
             tableConfig2.AddColumnRole(ColumnRole.Duration, durationColumnConfig);
-            tableConfig2.InitialSelectionQuery = "[Type]:=\"InFlight\"";
+            tableConfig2.InitialSelectionQuery = "[Type]:=\"InFlight\" OR [Type]:=\"CWnd\"";
             tableConfig2.InitialFilterQuery =
                 "[Type]:=\"Tx\" OR [Type]:=\"TxAck\" OR [Type]:=\"TxUdp\" OR [Type]:=\"Rx\" OR [Type]:=\"Rtt\"";
             tableBuilder.AddTableConfiguration(tableConfig2);
@@ -181,7 +181,7 @@ namespace MsQuicTracing.Tables
             tableBuilder.AddTableConfiguration(tableConfig3);
 
             tableConfig4.AddColumnRole(ColumnRole.StartTime, timeColumnConfig);
-            tableConfig4.InitialSelectionQuery = "[Type]:=\"Tx\" OR [Type]:=\"Rx\"";
+            tableConfig1.InitialSelectionQuery = "[Series Name]:=\"Type\"";
             tableConfig4.InitialFilterQuery =
                 "[Type]:<>\"Tx\" AND [Type]:<>\"TxAck\" AND [Type]:<>\"TxUdp\" AND [Type]:<>\"Rx\"";
             tableBuilder.AddTableConfiguration(tableConfig4);

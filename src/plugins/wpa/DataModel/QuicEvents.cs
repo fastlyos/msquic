@@ -672,6 +672,31 @@ namespace MsQuicTracing.DataModel
         }
     }
 
+    public class QuicConnectionConnCubicEvent : QuicEvent
+    {
+        public uint SlowStartThreshold { get; }
+
+        public uint K { get; }
+
+        public uint WindowMax { get; }
+
+        public uint WindowLastMax { get; }
+
+        public override string PayloadString =>
+            string.Format("CUBIC: SlowStartThreshold={0} K={1} WindowMax={2} WindowLastMax={3}",
+                SlowStartThreshold, K, WindowMax, WindowLastMax);
+
+        internal QuicConnectionConnCubicEvent(Timestamp timestamp, ushort processor, uint processId, uint threadId, int pointerSize, ulong objectPointer,
+                                              uint slowStartThreshold, uint k, uint windowMax, uint windowLastMax) :
+            base(QuicEventId.ConnCubic, QuicObjectType.Connection, timestamp, processor, processId, threadId, pointerSize, objectPointer)
+        {
+            SlowStartThreshold = slowStartThreshold;
+            K = k;
+            WindowMax = windowMax;
+            WindowLastMax = windowLastMax;
+        }
+    }
+
     public class QuicConnectionCongestionEvent : QuicEvent
     {
         public override string PayloadString => "Congestion event";
