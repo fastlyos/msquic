@@ -24,6 +24,7 @@
     <div class="sidebar">
         <br>
         <b class="centered">Platforms</b>
+        <br>
         <label class="platform-label" for="Windows Kernel">Windows Kernel</label>
 
         <label class="switch">
@@ -44,8 +45,8 @@
         </label>
         <br>
         <br>
-        <br>
         <b class="centered">Data Points</b>
+        <br>
         <div>
             <input type="radio" id="rawpdt" name="pointDisplayType" value="raw">
             <label for="rawpdt">Raw Points</label><br>
@@ -54,6 +55,12 @@
             <input type="radio" id="bothpdt" name="pointDisplayType" value="both">
             <label for="bothpdt">Both</label>
         </div>
+        <br>
+        <br>
+        <b class="centered">Dates</b>
+        <br>
+        <label for="numOfDays">Number of days:</label>
+        <input type="number" id="numOfDays" name="numOfDays" min="7" max="120" value="30">
     </div>
     <div style="margin-left: 180px; width: 80%;">
         <h1>MsQuic Performance Dashboard</h1>

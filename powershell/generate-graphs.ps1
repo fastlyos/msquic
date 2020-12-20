@@ -13,7 +13,7 @@ param (
     [string]$BranchName,
 
     [Parameter(Mandatory = $false)]
-    [int]$DaysToReceive = 30
+    [int]$DaysToReceive = 120
 )
 
 Set-StrictMode -Version 'Latest'

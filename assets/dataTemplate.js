@@ -21,6 +21,9 @@ var tputChart = null;
 var rpsChart = null;
 var hpsChart = null;
 
+// The number of days to display data for, in milliseconds
+numOfDays = 30 * 86400000
+
 function tooltipSort(a, b, data) {
     return data.datasets[a.datasetIndex].sortOrder - data.datasets[b.datasetIndex].sortOrder;
 }
@@ -133,7 +136,7 @@ function createRawDataset(plaftorm, color, dataset) {
         pointStyle: "crossRot",
         pointRadius: dataRawPointRadius,
         pointBorderWidth: 2,
-        data: dataset,
+        data: filterDataset(dataset, new Date(Date.now() - new Date(numOfDays))),
         sortOrder: 2,
         hidden: true,
         hiddenType: true,
@@ -152,7 +155,7 @@ function createAverageDataset(plaftorm, color, dataset) {
         borderWidth: dataLineWidth,
         pointRadius: dataRawPointRadius,
         tension: 0,
-        data: dataset,
+        data: filterDataset(dataset, new Date(Date.now() - new Date(numOfDays))),
         fill: false,
         sortOrder: 1,
         hidden: false,
@@ -257,6 +260,16 @@ function onPlatformChange(event) {
     updateChartPlatforms(hpsChart, platform, checked)
 }
 
+function onDaysChange(event) {
+    numOfDays = parseInt(document.getElementById('numOfDays').value)  * 86400000
+    tputChart.data = createDatasets(dataRawWinKernelx64SchannelThroughput, dataAverageWinKernelx64SchannelThroughput, dataRawWindowsx64SchannelThroughput, dataAverageWindowsx64SchannelThroughput, dataRawWindowsx64OpensslThroughput, dataAverageWindowsx64OpensslThroughput)
+    rpsChart.data = createDatasets(dataRawWinKernelx64SchannelRps, dataAverageWinKernelx64SchannelRps, dataRawWindowsx64SchannelRps, dataAverageWindowsx64SchannelRps, dataRawWindowsx64OpensslRps, dataAverageWindowsx64OpensslRps)
+    hpsChart.data = createDatasets(dataRawWinKernelx64SchannelHps, dataAverageWinKernelx64SchannelHps, dataRawWindowsx64SchannelHps, dataAverageWindowsx64SchannelHps, dataRawWindowsx64OpensslHps, dataAverageWindowsx64OpensslHps)
+    tputChart.update();
+    rpsChart.update();
+    hpsChart.update();
+}
+
 window.onload = function() {
     // Summary charts
     new Chart(document.getElementById('canvasThroughputSummary').getContext('2d'), {
@@ -293,4 +306,6 @@ window.onload = function() {
     document.getElementById('Windows Kernel').onclick = onPlatformChange
     document.getElementById('Windows User Schannel').onclick = onPlatformChange
     document.getElementById('Windows User OpenSSL').onclick = onPlatformChange
+
+    document.getElementById('numOfDays').onclick = onDaysChange
 };
